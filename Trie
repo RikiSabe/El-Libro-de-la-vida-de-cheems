@@ -1,0 +1,46 @@
+const int N=1000*1000;
+int nxt[N][100];
+bitset<N>finish;
+int cnt[N];
+int nodes=1;
+void add(string s,int val){
+	int cur=0; // raiz
+	for(int i=0;i<s.size();i++){
+		char c=s[i];
+		int v=c-'a';
+		if(nxt[cur][v]==0){
+			nxt[cur][v]=nodes;
+			nodes++;
+		}
+		cur=nxt[cur][v];
+		cnt[cur] += val;
+	}	
+	finish[cur]=1;
+}
+int find(string s){
+	int cur=0;
+	for(int i=0;i<s.size();i++){
+		char c=s[i];
+		int v=c-'a';
+		if(nxt[cur][v]==0)
+			return 0;
+			
+		cur=nxt[cur][v];
+	}	
+	return cnt[cur];
+}
+
+int main() {
+	int n;
+	cin>>n; // n querys
+	while(n--){
+	string cmd,s; // comando de tipo "add" en el trie, sino saber cuantas palabras almacenadas contienen el prefijo s
+		cin >> cmd >> s;
+		if(cmd=="add")
+			add(s,1);
+		else
+			cout<<find(s)<<endl;
+	}
+	
+	return 0;
+}
