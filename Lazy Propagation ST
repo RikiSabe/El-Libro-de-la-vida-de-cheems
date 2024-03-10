@@ -1,0 +1,49 @@
+struct Node {
+	ll sum = 0, propagate = 0;
+};
+ 
+Node ST[4 * N];
+int n;
+ 
+ll qry(int node, int l, int r, int ql, int qr, ll v) {
+	if(l == ql && r == qr) {
+		return ST[node].sum + v * (qr - ql + 1);
+	}
+	ll m = (l + r) / 2;
+	if(qr <= m ) {
+		return qry(2 * node + 1, l ,m, ql ,qr, v + ST[node].propagate);
+	}
+	else if(ql > m ) {
+		return qry(2 * node + 2, m + 1, r, ql ,qr , v + ST[node].propagate);
+	}
+	else{
+		ll ret = 0;
+		ret += qry(2 * node + 1, l, m, ql, m, v + ST[node].propagate);
+		ret += qry(2 * node + 2, m + 1, r, m + 1, qr, v + ST[node].propagate);
+		return ret;
+	}
+}
+ 
+ll qry(int l, int r) {
+	return qry(0, 0, n - 1, l, r, 0);
+}
+ 
+void propagate(int node, int l, int r, int ql, int qr, ll v) {
+	if(l == ql && r == qr) {
+		ST[node].propagate += v;
+		ST[node].sum += (qr - ql + 1) * v;
+		return;
+	}
+	int m = (l + r) / 2;
+	if(qr <= m) {
+		propagate(2 * node + 1, l, m, ql, qr, v); 
+	}
+	else if(ql > m) {
+		propagate(2 * node + 2, m + 1, r, ql, qr, v); 
+	}
+	else {
+		propagate(2 * node + 1, l, m, ql, m, v);
+		propagate(2 * node + 2, m + 1, r, m + 1, qr, v);
+	}
+	ST[node].sum = ST[2 * node + 1].sum + ST[2 * node + 2].sum + ST[node].propagate * (r - l + 1);
+}
