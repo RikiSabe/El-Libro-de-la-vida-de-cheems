@@ -1,0 +1,68 @@
+const int N = 1e3 +9;
+const int LOG2 = 11;
+int up[N][LOG2];
+//  nodo // pasos a subir 2^i
+vector< vector<int> >Tree(N);
+
+int depth[N];
+
+void dfs(int u,int p,int d){ // u->nodo, p-> padre de u
+	depth[u]=d;
+	up[u][0] = p; // registrar a donde llego
+	for(int i=1;i<LOG2;i++){
+		up[u][i] = up[ up[u][i-1] ] [i-1] ;
+	}
+	for(int i=0;i<Tree[u].size();i++){
+		int v = Tree[u][i];
+		if(v!=p){
+			dfs(v,u,d+1);
+		}
+	}
+}
+int lca(int a,int b){
+	if(depth[a] < depth[b]){
+		swap(a,b);
+	}
+	int d = depth[a] - depth[b] ; // nivelar
+	for(int i=0;i<LOG2;i++){
+		if( d>>i & 1){
+			a = up[a][i];
+		}
+	}
+	// ya estan nivelados
+	if(a==b) return a;
+	for(int i = LOG2-1 ; i>=0 ; i -- ){
+		if(up[a][i] != up [b][i]){
+			a  = up[a][i];
+			b  = up[b][i];
+		}
+	}
+	return up[a][0];
+}
+int main() {
+	int t;
+	scanf("%d",&t);
+	while(t--){
+	Tree.clear();
+//	Tree.resize(n+1);
+	int n; scanf("%d",&n);
+	int a,b;
+	int c=1;
+	for(int i=1;i<=n;i++){
+		int c; scanf("%d",&c);
+		for(int j=0;j<c;j++){
+			int v; scanf("%d",&v);
+			Tree[v].push_back(i);
+			Tree[i].push_back(v);
+		}
+	}
+	dfs(c,c,0);
+	int q,u,v; cin>>q;
+	while(q--){
+		scanf("%d %d",&u,&v);
+		
+		printf("%d\n",lca(u,v));
+	} 
+}
+	return 0;
+}
