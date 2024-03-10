@@ -1,0 +1,55 @@
+struct Node {
+	int mx = -inf, mn = inf;
+	int idx_mx = -1, idx_mn = -1;
+};
+ 
+Node ST[4 * N];
+vector<int> A(N); 
+int n;
+ 
+Node merge(Node A, Node B) {
+	Node C;
+	
+	C.mx = max(A.mx, B.mx);
+	C.idx_mx = (A.mx >= B.mx ? A.idx_mx : B.idx_mx);
+ 
+	C.mn = min(A.mn, B.mn);
+	C.idx_mn = (A.mn <= B.mn ? A.idx_mn : B.idx_mn);
+ 
+	return C;
+}
+ 
+void build(int node, int l, int r) {
+	if(l == r) {
+		ST[node].mx = A[l];
+		ST[node].mn = A[l];
+		ST[node].idx_mx = l;
+		ST[node].idx_mn = l;
+		return;
+	}
+	int m = (l + r) / 2;
+	build(2 * node + 1, l, m);
+	build(2 * node + 2, m + 1, r);
+	
+	ST[node] = merge(ST[2 * node + 1], ST[2 * node + 2]);
+}
+ 
+Node qry(int node, int l, int r, int ql, int qr) {
+	if(l == ql && r == qr) {
+		return ST[node];
+	}
+	int m = (l + r) / 2;
+	if(qr <= m) {
+		return qry(2 * node + 1, l, m, ql, qr);
+	}
+	if(ql > m) {
+		return qry(2 * node + 2, m + 1, r, ql, qr);
+	}
+	Node qry1 = qry(2 * node + 1, l, m, ql, m);
+	Node qry2 = qry(2 * node + 2, m + 1, r, m + 1, qr);
+	return merge(qry1, qry2);
+}
+ 
+Node qry(int l, int r) {
+	return qry(0, 0, n - 1, l, r);
+}
