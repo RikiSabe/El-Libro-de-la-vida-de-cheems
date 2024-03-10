@@ -1,0 +1,55 @@
+// verificar si un año es biciesto
+bool biciesto(int a){
+  return (a%4==0 && a%10!=0) || (a%400==0);
+}
+// valor maximo = 24 * 60
+// 6:13 -> 8:00 = 1:47
+void distance(){
+		int time, h ,m;
+		cin >> h >> m;
+		time = 60 * h + m;
+		cin >> h >> m;
+		int t = 60 * h + m - time;
+		if( t < 0 ) t += 24 * 60;
+		cout << t/60 << ":" << t%60 << nl;
+}
+// dias de los meses
+int mes[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+// verificar palindromo F1
+bool ok(int p){
+    int res = 0,num = p;
+    while(p>0){
+        res=(res+p%10)*10; p/=10;
+    }
+    res /= 10;
+    return num == res;
+}
+// verificar palindromo F2
+bool ok(int n){
+	vector<int> p;
+	while(n>0){
+		p.push_back(n%10); n/=10;
+	}
+	for( int i=0 ; i<p.size() ; i++){
+		if(p[i] != p[p.size()-1-i]) return false;
+	}
+	return true;
+}
+// verificar palindromo F3
+bool ok(string s){
+	for( int i=0 ; i<s.length()/2 ; i++){
+		if(s[i] != s[s.length()-1-i]) return false;
+	}
+	return true;
+}
+// reduccion de fracciones
+int gcd(int a, int b){
+	if ( b == 0) return a;
+	return gcd( b, a % b );
+}
+void reduccion(int n,int d){
+	int mcd = gcd(n,d);
+	n /= mcd; d /= mcd;
+	if ( d == 1 ) cout << n << endl;
+	else cout << n << "/" << d << endl;
+}
