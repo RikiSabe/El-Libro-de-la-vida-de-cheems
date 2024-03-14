@@ -1,3 +1,4 @@
+// Minimo de caracteres que puedes agregar en cualquier posición para formar un palindromo
 int fun(string s){
     int n = sz(s);
     vector<vector<int>> dp(n, vector<int> (n,0));
