@@ -1,6 +1,6 @@
 // Minimo de caracteres que puedes agregar en cualquier posición para formar un palindromo
 int fun(string s){
-    int n = sz(s);
+    int n = s.size();
     vector<vector<int>> dp(n, vector<int> (n,0));
     FOR(l,2,n + 1){
         FOR(i,0,n - l + 1){
