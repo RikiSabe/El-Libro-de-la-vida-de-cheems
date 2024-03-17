@@ -49,7 +49,22 @@ Node qry(int node, int l, int r, int ql, int qr) {
 	Node qry2 = qry(2 * node + 2, m + 1, r, m + 1, qr);
 	return merge(qry1, qry2);
 }
- 
+
+void update(int node, int l, int r, int pos, ll val) {
+	if(l == r) {
+		// set values
+		return;
+	}
+	int m = (l + r) / 2;
+	if(pos <= m) {
+		update(2 * node + 1, l, m, pos, val);
+	}
+	else {
+		update(2 * node + 2, m + 1, r, pos, val);
+	}
+	ST[node] = merge(ST[2 * node + 1], ST[2 * node + 2]);
+}
+
 Node qry(int l, int r) {
 	return qry(0, 0, n - 1, l, r);
 }
