@@ -65,3 +65,39 @@ int dy[] = {-1,1,1,-1};
 // grid moves with diagonal
 int dx[] = {0,-1,-1,-1,0,1,1,1};
 int dy[] = {-1,-1,0,1,1,1,0,-1};
+
+// Armar el minimo numero de una lista
+// condiciones: vecinos diferentes, sin zeros a la izq
+void solve(int ith){
+    int a[10] = {0};
+    int sum = 0;
+    FOR(i,0,10) cin >> a[i], sum += a[i];
+    bool ok = true;
+    if( 2 * a[0] > sum ) ok = false;
+    FOR(i,1,10){
+        if( 2 * a[i] - 1 > sum ) ok = false;
+    }
+    if( a[0] == 1 && sum == 1 ){
+        cout << 0 << nl;
+        return;
+    }
+    if( !ok ) {
+        cout << -1 << nl;
+        return;
+    }
+    int pre = 0;
+    while( sum ){
+        int curr = 10;
+        FOR(i,0,10){
+            if( i == pre || a[i] == 0) continue;
+            if( a[i] * 2 > sum ){
+                curr = i;
+                break;
+            }
+            curr = min(i,curr);
+        }
+        pre = curr, a[curr]--, sum--;
+        cout << curr;
+    }
+    cout << nl;
+}
