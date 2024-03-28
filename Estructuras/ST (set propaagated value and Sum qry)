@@ -1,0 +1,60 @@
+struct Node {
+	ll sum = 0, propagate = -1;
+};
+ 
+Node ST[4 * N];
+int n;
+
+void propagate(int node, int l, int r) {
+	int m = (l + r) / 2;
+	ST[2 * node + 1].propagate = ST[node].propagate;
+	ST[2 * node + 2].propagate = ST[node].propagate;
+
+	ST[node].propagate = -1;
+
+	ST[2 * node + 1].sum = (m - l + 1) * ST[2 * node + 1].propagate;
+	ST[2 * node + 2].sum = (r - m) * ST[2 * node + 2].propagate;
+}
+
+ll qry(int node, int l, int r, int ql, int qr) {
+	if(l == ql && r == qr) {
+		return ST[node].sum;
+	}
+	if(ST[node].propagate != -1) propagate(node, l, r);
+
+	int m = (l + r) / 2;
+	if(qr <= m) {
+		return qry(2 * node + 1, l, m, ql, qr);
+	}
+	if(ql > m) {
+		return qry(2 * node + 2, m + 1, r, ql, qr);
+	}
+	ll qry1 = qry(2 * node + 1, l, m, ql, m);
+	ll qry2 = qry(2 * node + 2, m + 1, r, m + 1, qr);
+	return qry1 + qry2;
+}
+
+void update(int node, int l, int r, int updL, int updR, int val) {
+	if(updL > r || updR < l) return;
+	if(l >= updL && r <= updR) {
+		ST[node].propagate = val;
+		ST[node].sum = (r - l + 1) * val;
+		return;
+	}
+	if(ST[node].propagate != -1) propagate(node, l, r);
+	int m = (l + r) / 2;
+	update(2 * node + 1, l, m, updL, updR, val);
+	update(2 * node + 2, m + 1, r, updL, updR, val);
+
+	ST[node].sum = ST[2 * node + 1].sum + ST[2 * node + 2].sum;
+
+}
+
+
+
+cin >> l >> r >> v; // update a range [l, r] with 'v' (indexed by 0)
+update(0, 0, n - 1, l, r, v);
+		
+cin >> l >> r; // get Sum [l,r]
+ll S = qry(0, 0, n - 1, l, r);
+	
