@@ -2,18 +2,20 @@ vector<ll> inv(N);
 vector<ll> fact(N);
 vector<ll> fact_inv(N);
 
-inv[1] = 1;
-for(int i = 2; i < N; i ++) { 
-	inv[i] = MOD - (MOD / i) * inv[MOD % i] % MOD; 
-}
-fact[0] = 1; fact_inv[0] = 1;
-for(int i = 1; i < N; i ++) { 
-	fact[i] = (fact[i - 1] * i) % MOD; 
-	fact_inv[i] = fact_inv[i - 1] * inv[i] % MOD; 
+void init() {
+    	inv[1] = 1;
+    	for(int i = 2; i < N; i ++) { 
+	inv[i] = modL - (modL / i) * inv[modL % i] % modL; 
+	}
+	fact[0] = 1; fact_inv[0] = 1;
+	for(int i = 1; i < N; i ++) { 
+		fact[i] = (fact[i - 1] * i) % modL; 
+		fact_inv[i] = fact_inv[i - 1] * inv[i] % modL; 
+	}
 }
 
 ll C(int n, int k){
 	if (n < 0 || k < 0) return 0LL; 
 	if (n < k) return 0LL; 
-	return fact[n] * fact_inv[n - k] % MOD * fact_inv[k] % MOD;
+	return fact[n] * fact_inv[n - k] % modL * fact_inv[k] % modL;
 };
