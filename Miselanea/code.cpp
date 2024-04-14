@@ -101,3 +101,26 @@ void solve(int ith){
     }
     cout << nl;
 }
+// Angulo minimo de las manecillas del reloj - variantes
+void solve(){
+    int h,m; cin >> h >> m;
+    h %= 12;// control de 24 hrs a 12 hrs
+    double ah = (h * 30)  + (m * 0.5);
+    double am = m * 6;
+    // angulo minimo
+    double ans = abs(ah - am);
+    if( ans > 180 ) ans = 360 - ans;
+    cout << ans << nl;
+    // angulo desde la izquierda - antihorario
+    double ans = ah - am;
+    if (ans < 0) ans += 360;
+    cout << ans << nl;
+    // angulo desde la derecha - horario
+    double ans = am - ah;
+    ans = fmod(ans, 360);
+    if (ans < 0) ans += 360;
+    cout << ans << nl;
+    // angulo maximo
+    double ans = abs(ah - am);
+    cout << min(ans, 360 - ans) << nl;
+}
