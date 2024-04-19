@@ -1,4 +1,4 @@
-vector<int> z_function(string s) {
+vector<int> z_algorithm(string s) {
     int n = s.size();
     vector<int> z(n);
     int l = 0, r = 0;
