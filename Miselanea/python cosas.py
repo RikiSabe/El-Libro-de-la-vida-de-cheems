@@ -16,3 +16,12 @@ def dias_transcurridos(d, m):
 txt = "I like bananas"
 x = txt.replace("bananas", "apples")
 print(x)
+
+// replace con recursion
+import re
+s = "bananas"
+ss = re.sub(r"bananas", "apples", s)
+print(ss)
+// para eliminar espacios innecesarios
+ss = re.sub(r'\s+', ' ', s)
+print(ss)
