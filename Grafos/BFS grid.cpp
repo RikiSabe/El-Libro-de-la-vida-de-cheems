@@ -18,14 +18,14 @@ bool ok(int cx, int cy, int n, int m){
     return cx >=0 && cy >= 0 && cx < n && cy < m;
 }
 
-void bfs(ii i, vector<string> &grid, vector<vector<bool>> &visited, int n, int m){
-    visited[i.first][i.second] = true;
+void bfs(ii start, vector<string> &grid, vector<vector<bool>> &visited, int n, int m){
+    visited[start.first][start.second] = true;
     queue<ii> q;
-    q.push(i);
+    q.push(start);
     //options
     // int dis = 1;
     // vector<vector<int>> dis(n, vector<int> (m));
-    // dis[i.first][i.second] = 1;
+    // dis[start.first][start.second] = 1;
     while(!q.empty()){
         int cx = q.front().first, cy = q.front().second;
         q.pop();
