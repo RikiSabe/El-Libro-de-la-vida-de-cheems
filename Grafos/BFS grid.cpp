@@ -37,7 +37,7 @@ void bfs(ii start, vector<string> &grid, vector<vector<bool>> &visited, int n, i
             if( grid[xx][yy] == '.' && !visited[xx][yy]){
                 visited[xx][yy] = true;
                 // dis++;
-                // dis[xx][xx] = dis[cx][cy] + 1;
+                // dis[xx][yy] = dis[cx][cy] + 1;
                 q.push({xx,yy});
             }
         }
