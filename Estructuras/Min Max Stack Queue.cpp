@@ -1,6 +1,6 @@
-#define ii pair<int,int> // 2
-#define iii pair<ii,int> // 3
-// stack max min
+#define ii pair<int,int> 
+#define iii pair<ii,int> 
+
 struct stack_max_min {
     stack<iii> st;
     int getmin() { return st.top().first.second; }
@@ -17,10 +17,11 @@ struct stack_max_min {
     }
     void pop() {st.pop();}
     int top() { return st.top().first.first; }
-    void swap(stack_RS &x) { st.swap(x.st); }
+    void swap(stack_max_min &x) { st.swap(x.st); }
 };
-// queue max min
-struct queue_max_min {
+ 
+// deque max min
+struct deque_max_min {
     stack_max_min l, r, t;
     void rebalance() {
         bool f = false;
@@ -49,5 +50,5 @@ struct queue_max_min {
     void pop_back() {if (r.empty()) rebalance(); r.pop();}
     int front() {if (l.empty()) rebalance(); return l.top();}
     int back() {if (r.empty()) rebalance(); return r.top();}
-    void swap(queue_RS &x) {l.swap(x.l); r.swap(x.r);}
+    void swap(deque_max_min &x) {l.swap(x.l); r.swap(x.r);}
 };
