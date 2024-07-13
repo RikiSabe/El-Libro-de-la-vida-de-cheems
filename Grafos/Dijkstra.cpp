@@ -7,6 +7,9 @@ vector<ll> Dijkstra(int a, int n) {
     while(!pq.empty()) {
         ii U = pq.top(); pq.pop();
         ll w = U.first, u = U.second;
+	if(dist[u] < w) {
+		continue;
+	}
         for(ii adj : G[u]) {
             ll v = adj.first, new_w = adj.second;
 			if(w + new_w < dist[v]) {
