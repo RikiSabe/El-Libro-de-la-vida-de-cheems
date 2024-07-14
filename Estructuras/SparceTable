@@ -34,11 +34,10 @@ struct SparseTable {
         if (arr[st[L][j]] <= arr[st[R - (1 << j) + 1][j]]) return st[L][j];
         else return st[R - (1 << j) + 1][j];
     }
-
-	int query2(int L, int R) const { // return just the minimun value
-		int j = log[R - L + 1];
-		return min(arr[st[L][j]], arr[st[R - (1 << j) + 1][j]]);
-	}
+    int query2(int L, int R) const { // return just the minimun value
+	int j = log[R - L + 1];
+	return min(arr[st[L][j]], arr[st[R - (1 << j) + 1][j]]);
+    }
 };
 
 int main() {
@@ -48,8 +47,6 @@ int main() {
     SparseTable st;
     st.build(arr);
     
-    int L = 2;
-    int R = 5;
     int min_index = st.query(L, R);
     cout << st.arr[min_index] << endl;
     
