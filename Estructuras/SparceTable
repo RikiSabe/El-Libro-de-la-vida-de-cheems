@@ -1,0 +1,66 @@
+struct SparseTable {
+    vector<vector<int>> st;  // Sparse table
+    vector<int> log;         // Precomputed logarithms
+    vector<int> arr;         // Original array
+    
+    // Function to build the sparse table
+    void build(const vector<int>& input_arr) {
+        arr = input_arr;  // Store the original array
+        int n = arr.size() - 1;  // size of arr (index 0 is not used)
+        int j_max = log2(n) + 1;
+        
+        // Initialize the sparse table and log array
+        st.assign(n + 1, vector<int>(j_max));
+        log.assign(n + 1, 0);
+        
+        // Precompute logarithms for efficiency
+        for (int i = 2; i <= n; ++i) {
+            log[i] = log[i / 2] + 1;
+        }
+        
+        // Fill the sparse table
+        for (int i = 1; i <= n; ++i) {
+            st[i][0] = i;  // minimum index in range [i, i]
+        }
+        
+        for (int j = 1; (1 << j) <= n; ++j) {
+            for (int i = 1; i + (1 << j) - 1 <= n; ++i) {
+                if (arr[st[i][j - 1]] < arr[st[i + (1 << (j - 1))][j - 1]]) {
+                    st[i][j] = st[i][j - 1];
+                } else {
+                    st[i][j] = st[i + (1 << (j - 1))][j - 1];
+                }
+            }
+        }
+    }
+    
+    // Function to perform range minimum query
+    int query(int L, int R) const {
+        int j = log[R - L + 1];
+        if (arr[st[L][j]] <= arr[st[R - (1 << j) + 1][j]]) {
+            return st[L][j];
+        } else {
+            return st[R - (1 << j) + 1][j];
+        }
+    }
+};
+
+int main() {
+    // Example usage
+    vector<int> arr = {0, 3, 4, 1, 6, 2, 3};  // index 0 is not used
+    int n = arr.size() - 1;  // size of arr
+    
+    SparseTable st;  // Declare a SparseTable object
+    
+    // Build the sparse table
+    st.build(arr);
+    
+    // Example query
+    int L = 2;
+    int R = 5;
+    int min_index = st.query(L, R);
+    
+    cout << "El mínimo en el rango [" << L << ", " << R << "] es " << st.arr[min_index] << " en el índice " << min_index << endl;
+    
+    return 0;
+}
