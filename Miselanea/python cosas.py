@@ -25,3 +25,7 @@ print(ss)
 // para eliminar espacios innecesarios
 ss = re.sub(r'\s+', ' ', s)
 print(ss)
+
+// fast input
+import sys
+input = sys.stdin.readline
