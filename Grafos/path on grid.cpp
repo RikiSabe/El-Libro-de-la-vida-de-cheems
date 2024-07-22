@@ -1,4 +1,4 @@
-// Encontrar el minimo de pasos recorriendo todas las X desde A hasta B en grid
+// Encontrar el minimo de pasos recorriendo todas las X desde start hasta goal en grid
 int dx[4]{-1, 0, 1, 0};
 int dy[4]{0, 1, 0, -1};
 
