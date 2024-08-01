@@ -1,0 +1,86 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+#define FOR(i, l, r)        	for(int i = l; i < r ; i ++)
+const int N = 2e5 + 9;
+
+struct Node {
+    long long value
+    long long lazy;
+};
+
+Node tree[4 * N];
+int data[N];
+int n;
+
+void build(int node, int l, int r) {
+    if (l == r) {
+        tree[node].value = data[l];
+        tree[node].lazy = -1; 
+    } else {
+        int mid = (l + r) / 2;
+        build(2*node, l, mid);
+        build(2*node + 1, mid + 1, r);
+        tree[node].value = tree[2*node].value + tree[2*node + 1].value;
+        tree[node].lazy = -1;
+    }
+}
+
+void propagate(int node, int l, int r) {
+    if(tree[node].lazy != -1) {
+        tree[node].value = (r - l + 1) * tree[node].lazy;
+        if (l != r) {
+            tree[2*node].lazy = tree[node].lazy;
+            tree[2*node + 1].lazy = tree[node].lazy;
+        }
+        tree[node].lazy = -1;
+    }
+}
+
+void updateRange(int node, int l, int r, int q_l, int q_r, long long val) {
+    propagate(node, l, r);
+    if (l > r || l > q_r || r < q_l) {
+        return;
+    }
+    if (l >= q_l && r <= q_r) {
+        tree[node].value = (r - l + 1) * val;
+        if (l != r) {
+            tree[2*node].lazy = val;
+            tree[2*node + 1].lazy = val;
+        }
+        return;
+    }
+    int mid = (l + r) / 2;
+    updateRange(2*node, l, mid, q_l, q_r, val);
+    updateRange(2*node + 1, mid + 1, r, q_l, q_r, val);
+    tree[node].value = tree[2*node].value + tree[2*node + 1].value;
+}
+
+long long queryRange(int node, int l, int r, int q_l, int q_r) {
+    propagate(node, l, r);
+    if (l > r || l > q_r || r < q_l) {
+        return 0;
+    }
+    if (l >= q_l && r <= q_r) {
+        return tree[node].value;
+    }
+    int mid = (l + r) / 2;
+    long long leftSum = queryRange(2*node, l, mid, q_l, q_r);
+    long long rightSum = queryRange(2*node + 1, mid + 1, r, q_l, q_r);
+    return leftSum + rightSum;
+}
+
+int main() {
+    int n, q; cin >> n >> q;
+	build(1, 0, n - 1);
+	int l, r, val;
+	FOR(i, 0, q) {
+		cin >> l >> r >> val; l --; r --;
+		updateRange(1, 0, n - 1, l, r, val);
+	}
+	FOR(i, 0, n) {
+		cout << queryRange(1, 0, n - 1, i, i) << endl;
+	}
+    return 0;
+}
