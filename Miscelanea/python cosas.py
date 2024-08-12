@@ -53,3 +53,8 @@ print(s)
 
 import bisect
 index = biset.bisect_left(s,num) # lista, numero, LOWERBOUND
+
+import itertools
+from collections import defaultdict
+A = ['a', 'b', 'c']
+permu = list(itertools.permutation(A))
