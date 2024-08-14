@@ -1,33 +1,51 @@
-#include <bits/stdc++.h>
+vector<string> gengrid(int n, int m, int percent = 25){
+    // porcentaje de #
+    vector<string> res;
+    FOR(i,0,n){
+        string s;
+        FOR(j,0,m){
+            int randcurr = rand() % 100;
+            if( randcurr < percent ) s += '#'; //cout << "#";
+            else s+= '.'; //cout << ".";
+        }
+        res.push_back(s);
+    }
+    return res;
+}
 
-typedef long long int           ll;
-typedef unsigned long long int  ull;
-typedef long double             ld;
+vector<int> genarr(int n, int a, int b, bool binario = false){
+    // al habilitar el binario, no importa [a,b]
+    vector<int> res(n);
+    FOR(i,0,n){
+        if( binario ) res[i] = (rand() % 2 ? 1 : 0);
+        else res[i] = (a + rand() % (b - a + 1));
+    }
+    return res;
+}
 
-using namespace std;
+string genstr(int n, char a, char b, bool binario = false){
+    // al habilitar el binario, no importa [a,b]
+    string s;
+    FOR(i,0,n){
+        if( binario ) s += (rand() % 2 ? '1' : '0');
+        else s += (a + rand() % (b - a + 1));
+    }
+    return s;
+}
 
-#define all(v)  v.begin(),v.end() // inicio - fin
-#define rall(v) v.rbegin(),v.rend() // fin - inicio
+int genint(int a, int b){
+    return (a + rand() % (b - a + 1));
+}
 
-#define executeTime     cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";
-#define printList(A)    {bool band = 0; for(auto x : A) { if(!band) {cout << x; band = 1;}else {cout << " " << x;}} cout << endl;}
-#define FOR(i,a,b)      for(auto i=a ; i<b ; i++)
-
-bool debug = { 1 };
-void init();
+ll genll(ll a, ll b){
+    return (a + rand() % (b - a + 1LL));
+}
 
 void solve(int testCase) {
-    
-}
-
-int main(){
-    init();
-    solve(0);
-    executeTime;
-    return 0;
-}
-
-void init(){
-    cerr << "Mood Try Winner ALL\n";
-    
+    srand(time(NULL));
+    // vector<string> grid = gengrid(10,30); // [n,m]
+    // vector<int> a = genarr(10, 10, 20); // [n, [a,b], binary=false]
+    // string s = genstr(30,'a', 'b'); // [n, [a,z], binario=false]
+    // int x = genint(-1e4, 1e4); // [a,b]
+    // ll y = genll(1e16, 1e18); // [a,b]
 }
