@@ -1,0 +1,84 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <climits>
+
+using namespace std;
+
+struct Point {
+    int x, y;
+};
+
+bool compareX(const Point& a, const Point& b) {
+    return a.x < b.x;
+}
+
+bool compareY(const Point& a, const Point& b) {
+    return a.y < b.y;
+}
+
+double distance(const Point& a, const Point& b) {
+    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+}
+
+double closestPairUtil(vector<Point>& pointsX, vector<Point>& pointsY) {
+    int n = pointsX.size();
+    
+    if (n <= 3) {
+        double minDist = DBL_MAX;
+        for (int i = 0; i < n - 1; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                minDist = min(minDist, distance(pointsX[i], pointsX[j]));
+            }
+        }
+        return minDist;
+    }
+
+    int mid = n / 2;
+    Point midPoint = pointsX[mid];
+
+    vector<Point> pointsYLeft, pointsYRight;
+    for (const Point& p : pointsY) {
+        if (p.x <= midPoint.x) {
+            pointsYLeft.push_back(p);
+        } else {
+            pointsYRight.push_back(p);
+        }
+    }
+
+    double leftDist = closestPairUtil(vector<Point>(pointsX.begin(), pointsX.begin() + mid), pointsYLeft);
+    double rightDist = closestPairUtil(vector<Point>(pointsX.begin() + mid, pointsX.end()), pointsYRight);
+    double d = min(leftDist, rightDist);
+
+    vector<Point> strip;
+    for (const Point& p : pointsY) {
+        if (fabs(p.x - midPoint.x) < d) {
+            strip.push_back(p);
+        }
+    }
+
+    double minDist = d;
+    for (int i = 0; i < strip.size(); ++i) {
+        for (int j = i + 1; j < strip.size() && (strip[j].y - strip[i].y) < d; ++j) {
+            minDist = min(minDist, distance(strip[i], strip[j]));
+        }
+    }
+
+    return minDist;
+}
+
+double closestPair(vector<Point>& points) {
+    vector<Point> pointsX = points;
+    vector<Point> pointsY = points;
+    sort(pointsX.begin(), pointsX.end(), compareX);
+    sort(pointsY.begin(), pointsY.end(), compareY);
+    return closestPairUtil(pointsX, pointsY);
+}
+
+int main() {
+    vector<Point> points = {{0, 0}, {2, 2}, {3, 3}, {5, 1}, {6, 5}};
+    double minDist = closestPair(points);
+    cout << "The closest pair distance is " << minDist << endl;
+    return 0;
+}
