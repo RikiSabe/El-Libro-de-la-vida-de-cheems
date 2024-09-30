@@ -1,9 +1,7 @@
-class FenwickTree2D {
-private:
+struct FenwickTree2D {
     int n, m;
-    vector<vector<int>> tree; 
+    vector<vector<int>> tree;
 
-public:
     FenwickTree2D(int n, int m) : n(n), m(m) {
         tree.resize(n + 1, vector<int>(m + 1, 0));
     }
