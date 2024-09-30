@@ -1,0 +1,46 @@
+#include <vector>
+using namespace std;
+
+struct FenwickTree2D {
+    int n, m;
+    vector<vector<int>> tree1, tree2;
+
+    FenwickTree2D(int n, int m) : n(n), m(m) {
+        tree1.resize(n + 1, vector<int>(m + 1, 0));
+        tree2.resize(n + 1, vector<int>(m + 1, 0));
+    }
+
+    void update(int x, int y, int delta) {
+        for (int i = x; i <= n; i += i & -i) {
+            for (int j = y; j <= m; j += j & -j) {
+                tree1[i][j] += delta;
+                tree2[i][j] += delta * (x - 1) + delta * (y - 1);
+            }
+        }
+    }
+
+    void rangeUpdate(int x1, int y1, int x2, int y2, int delta) {
+        update(x1, y1, delta);
+        update(x1, y2 + 1, -delta);
+        update(x2 + 1, y1, -delta);
+        update(x2 + 1, y2 + 1, delta);
+    }
+
+    int query(int x, int y) {
+        int sum1 = 0, sum2 = 0;
+        for (int i = x; i > 0; i -= i & -i) {
+            for (int j = y; j > 0; j -= j & -j) {
+                sum1 += tree1[i][j];
+                sum2 += tree2[i][j];
+            }
+        }
+        return sum1 * (x + 1) * (y + 1) - sum2;
+    }
+
+    int rangeQuery(int x1, int y1, int x2, int y2) {
+        return query(x2, y2) 
+             - query(x1 - 1, y2) 
+             - query(x2, y1 - 1) 
+             + query(x1 - 1, y1 - 1);
+    }
+};
