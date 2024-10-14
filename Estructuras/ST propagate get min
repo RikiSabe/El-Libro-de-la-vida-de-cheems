@@ -1,14 +1,23 @@
+#define ll long long
+#define N 100000  // Define N como el tamaño máximo del array
+
+// Estructura para el nodo del Segment Tree
 struct Node {
-    ll min_val = infL;  
-    ll propagate = 0;
+    ll min_val = LLONG_MAX;  // Valor mínimo
+    ll min_idx = -1;         // Índice del valor mínimo
+    ll propagate = 0;        // Valor pendiente de propagación
 };
 
-Node ST[4 * N];
+Node ST[4 * N];  // Árbol de segmento global
 
+ll INF = LLONG_MAX;
+
+// Propagamos el valor pendiente
 void propagate(int node, int start, int end) {
     if (ST[node].propagate != 0) {
         ST[node].min_val += ST[node].propagate;
-        
+
+        // Si no es una hoja, propagamos a los hijos
         if (start != end) {
             ST[2 * node + 1].propagate += ST[node].propagate;
             ST[2 * node + 2].propagate += ST[node].propagate;
@@ -18,35 +27,57 @@ void propagate(int node, int start, int end) {
     }
 }
 
+// Construir el Segment Tree
 void build(const vector<ll>& arr, int node, int start, int end) {
     if (start == end) {
         ST[node].min_val = arr[start];
+        ST[node].min_idx = start;
     } else {
         int mid = (start + end) / 2;
         build(arr, 2 * node + 1, start, mid);
         build(arr, 2 * node + 2, mid + 1, end);
-        ST[node].min_val = min(ST[2 * node + 1].min_val, ST[2 * node + 2].min_val);
+
+        // Combinar los dos nodos hijos
+        if (ST[2 * node + 1].min_val < ST[2 * node + 2].min_val) {
+            ST[node].min_val = ST[2 * node + 1].min_val;
+            ST[node].min_idx = ST[2 * node + 1].min_idx;
+        } else if (ST[2 * node + 1].min_val > ST[2 * node + 2].min_val) {
+            ST[node].min_val = ST[2 * node + 2].min_val;
+            ST[node].min_idx = ST[2 * node + 2].min_idx;
+        } else {
+            // Si son iguales, elegimos el índice más pequeño
+            ST[node].min_val = ST[2 * node + 1].min_val;
+            ST[node].min_idx = min(ST[2 * node + 1].min_idx, ST[2 * node + 2].min_idx);
+        }
     }
 }
 
-ll query(int node, int start, int end, int L, int R) {
+// Realizar una consulta para obtener el mínimo y su índice
+pair<ll, ll> query(int node, int start, int end, int L, int R) {
     propagate(node, start, end);
     
     if (start > R || end < L) {
-        return infL;
+        return {INF, -1};  // Un valor fuera de rango
     }
 
     if (start >= L && end <= R) {
-        return ST[node].min_val;
+        return {ST[node].min_val, ST[node].min_idx};
     }
 
     int mid = (start + end) / 2;
-    ll left_query = query(2 * node + 1, start, mid, L, R);
-    ll right_query = query(2 * node + 2, mid + 1, end, L, R);
-    
-    return min(left_query, right_query);
+    pair<ll, ll> left_query = query(2 * node + 1, start, mid, L, R);
+    pair<ll, ll> right_query = query(2 * node + 2, mid + 1, end, L, R);
+
+    if (left_query.first < right_query.first) {
+        return left_query;
+    } else if (left_query.first > right_query.first) {
+        return right_query;
+    } else {
+        return {left_query.first, min(left_query.second, right_query.second)};
+    }
 }
 
+// Actualizar un rango con una suma
 void update_range(int node, int start, int end, int L, int R, ll value) {
     propagate(node, start, end);
     
@@ -64,22 +95,39 @@ void update_range(int node, int start, int end, int L, int R, ll value) {
     update_range(2 * node + 1, start, mid, L, R, value);
     update_range(2 * node + 2, mid + 1, end, L, R, value);
     
-    ST[node].min_val = min(ST[2 * node + 1].min_val, ST[2 * node + 2].min_val);
+    // Actualizamos el nodo combinando los resultados de los hijos
+    if (ST[2 * node + 1].min_val < ST[2 * node + 2].min_val) {
+        ST[node].min_val = ST[2 * node + 1].min_val;
+        ST[node].min_idx = ST[2 * node + 1].min_idx;
+    } else if (ST[2 * node + 1].min_val > ST[2 * node + 2].min_val) {
+        ST[node].min_val = ST[2 * node + 2].min_val;
+        ST[node].min_idx = ST[2 * node + 2].min_idx;
+    } else {
+        ST[node].min_val = ST[2 * node + 1].min_val;
+        ST[node].min_idx = min(ST[2 * node + 1].min_idx, ST[2 * node + 2].min_idx);
+    }
 }
 
-void cumbia420PaLosCheems(int testCase) {
-	int n; cin >> n;
-	vector<ll> A(n, 0);
-	FOR(i, 0, n) cin >> A[i];
-	build(A, 0, 0, n - 1);
+int main() {
+    int n, q;
+    cin >> n >> q;
+    vector<ll> arr(n);
+    
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
 
-	while (1) {
+    // Construir el árbol de segmento con el arreglo de entrada
+    build(arr, 0, 0, n - 1);
+
+    while (q--) {
         int op;
         cin >> op;
         if (op == 1) {  // Consulta de mínimo en el rango [L, R]
             int L, R;
             cin >> L >> R;
-            cout << query(0, 0, n - 1, L, R) << endl;
+            pair<ll, ll> result = query(0, 0, n - 1, L, R);
+            cout << result.first << " " << result.second << endl;  // Mínimo y el índice
         } else if (op == 2) {  // Actualización de rango con suma
             int L, R;
             ll v;
@@ -87,4 +135,6 @@ void cumbia420PaLosCheems(int testCase) {
             update_range(0, 0, n - 1, L, R, v);
         }
     }
+
+    return 0;
 }
