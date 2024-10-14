@@ -1,0 +1,68 @@
+struct Node {
+    ll minVal = infL, propagate = 0;
+};
+
+Node ST[4 * N];
+int n;
+
+long long qry(int node, int l, int r, int ql, int qr, long long v) {
+    if (l == ql && r == qr) {
+        return ST[node].minVal + v;
+    }
+
+    long long m = (l + r) / 2;
+    if (qr <= m) {
+        return qry(2 * node + 1, l, m, ql, qr, v + ST[node].propagate);
+    } else if (ql > m) {
+        return qry(2 * node + 2, m + 1, r, ql, qr, v + ST[node].propagate);
+    } else {
+        long long ret = LLONG_MAX;
+        ret = min(ret, qry(2 * node + 1, l, m, ql, m, v + ST[node].propagate));
+        ret = min(ret, qry(2 * node + 2, m + 1, r, m + 1, qr, v + ST[node].propagate));
+        return ret;
+    }
+}
+
+long long qry(int l, int r) {
+    return qry(0, 0, n - 1, l, r, 0);
+}
+
+void propagate(int node, int l, int r, int ql, int qr, long long v) {
+    if (l == ql && r == qr) {
+        ST[node].propagate += v; 
+        ST[node].minVal += v;
+        return;
+    }
+
+    int m = (l + r) / 2;
+    if (qr <= m) {
+        propagate(2 * node + 1, l, m, ql, qr, v);
+    } else if (ql > m) {
+        propagate(2 * node + 2, m + 1, r, ql, qr, v);
+    } else {
+        propagate(2 * node + 1, l, m, ql, m, v);
+        propagate(2 * node + 2, m + 1, r, m + 1, qr, v);
+    }
+    ST[node].minVal = min(ST[2 * node + 1].minVal + ST[2 * node + 1].propagate,
+                          ST[2 * node + 2].minVal + ST[2 * node + 2].propagate);
+}
+
+int main() {
+    cin >> n;
+    for (int i = 0; i < 4 * n; ++i) {
+        ST[i].minVal = infL;
+    }
+    int l, r;
+    cin >> l >> r;
+    cout << "El mínimo en el rango [" << l << ", " << r << "] es: " << qry(l, r) << endl;
+
+    int ql, qr;
+    long long v;
+    cin >> ql >> qr >> v;
+    propagate(0, 0, n - 1, ql, qr, v);
+
+    cin >> l >> r;
+    cout << "El mínimo después de la propagación en el rango [" << l << ", " << r << "] es: " << qry(l, r) << endl;
+
+    return 0;
+}
