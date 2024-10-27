@@ -1,0 +1,61 @@
+struct Point {
+	double x, y;
+	Point(double xx, double yy) { x = xx; y = yy; }
+	Point operator+(const Point& other) {
+    return Point(x + other.x, y + other.y);
+  }
+	Point operator-(const Point& other) {
+		return Point(x - other.x, y - other.y);
+	}
+	Point operator*(double k) {
+		return Point(x * k, y * k);
+	}
+	double dist(const Point& other) {
+		return sqrt( pow(x - other.x, 2) + pow(y - other.y, 2));
+	}
+	double norma() {
+		return sqrt(x * x + y * y);
+	}
+	Point unitario() {
+		double sz = norma();
+		return Point(x / sz, y / sz);
+	}
+	void rotate(double ang) {
+		ang = ang * pi / 180,0;
+		double xx = x * cos(ang) - y * sin(ang);
+		double yy = x * sin(ang) + y * cos(ang);
+		x = xx; y = yy;
+	}
+	double cruz(Point a, Point b) {
+		return a.x * b.y - a.y * b.x;
+	}
+	Point Intersection(Point a, Point b, Point c, Point d) { // ab & cd
+		Point ab = b - a;
+		Point cd = d - c;
+		Point ac = c - a;
+		double num = cruz(cd, ac);
+		double den = cruz(cd, ab);	
+		Point div = ab * (num / den);
+		div = a + div;
+		//div.ver();
+		return div;
+	}
+	void ver() {
+		//cerr << "POINT " << fixed << setprecision(3) << x << " " << y << endl;
+	}
+
+	Point _3Points(Point a, Point b, Point c) {
+		Point d = (a + b) * (0.5);
+		Point cc = d - a;
+		cc.rotate(90);
+		cc = d + cc; // ok 
+		
+		Point e = (b + c) * 0.5;
+		Point ee = e - b;
+		ee.rotate(90);
+		ee = e + ee;
+		
+		return a.Inter(d, cc, e, ee);
+
+	}
+};
