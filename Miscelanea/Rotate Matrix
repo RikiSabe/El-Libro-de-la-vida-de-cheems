@@ -1,0 +1,23 @@
+vector<string> rotateClockwise(vector<string> A) {
+    int n = A.size();
+    vector<string> result(n, string(n, ' ')); 
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            result[j][n - 1 - i] = A[i][j];
+        }
+    }
+    return result;
+}
+
+vector<string> rotateCounterClockwise(vector<string> A) {
+    int n = A.size();
+    vector<string> result(n, string(n, ' ')); 
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            result[n - 1 - j][i] = A[i][j];
+        }
+    }
+    return result;
+}
