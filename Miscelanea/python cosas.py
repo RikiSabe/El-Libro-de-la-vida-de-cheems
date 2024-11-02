@@ -58,3 +58,21 @@ import itertools
 from collections import defaultdict
 A = ['a', 'b', 'c']
 permu = list(itertools.permutation(A))
+
+
+from sortedcontainers import SortedList
+
+sl = SortedList([1, 3, 3, 5, 7, 9])
+
+index_left = sl.bisect_left(3)
+index_right = sl.bisect_right(3)
+
+sl.add(3)  # Insertar un nuevo 3
+print(sl)  # Salida: SortedList([1, 3, 3, 3, 5, 7, 9])
+try:
+    sl.remove(10)
+except ValueError:
+    print("No se puede eliminar 10 porque no está en la lista.")
+
+if elemento_a_buscar in sl:
+    print(f"{elemento_a_buscar} existe en la lista.")
