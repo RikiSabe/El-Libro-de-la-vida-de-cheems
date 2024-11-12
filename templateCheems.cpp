@@ -1,6 +1,6 @@
 /*
 
-	@author :  *your handle here*
+	@author :  -
 	
 	AGUANTE CORAZON, AGUANTE
 
@@ -136,6 +136,7 @@ using namespace __gnu_pbds;
 #define debug1(A)           	if(debug) { cerr << "? " << #A << " : " << A << endl; }
 #define debug2(A, B)            if(debug) { cerr << "? [ " << #A << " = " << A << " | " << #B << " = " << B << " ]" << endl; }
 #define debug3(A, B, C)         if(debug) { cerr << "? [ " << #A << " = " << A << " | " << #B << " = " << B << " | " << #C << " = " << C << " ]" << endl; }
+#define debugPair(a) 			if(debug) { cerr << "? " << #a << ": ( " << a.first << " , " << a.second << " )" << endl; }
 #define debugList(A)            if(debug) { cerr << "? " << #A << ": "; if(debug) { bool leonelCheems = 0; cerr << "[ ";  for(auto x : A) { if(!leonelCheems) cerr << x , leonelCheems = 1; else cerr << " , " << x ;} cerr << " ]" << endl; } }
 #define printList(A) 		    { bool leonelCheems = 0; for(auto x : A) { if(!leonelCheems) {cout << x; leonelCheems = 1;}else {cout << " " << x;}} cout << endl; }
 #define debugIterablePairs(P) 	if(debug) {  cerr << "? " << #P << " : "; cerr << "{ " << endl; for(auto it : P) { cerr << "    " << it.first << " -> " << it.second << endl; } cerr << "} " << endl;  }
@@ -145,12 +146,13 @@ using namespace __gnu_pbds;
 #define executeTime         	cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";
 #define FOR(i, l, r)        	for(int i = l; i < r ; i ++)
 #define endl '\n';
+#define SZ(A) 					(int)A.size()
 
 typedef vector<int> vi;
 typedef vector<ii> vii;
 typedef vector<ll> vll;
 
-const int    N    = 2e5  + 9;
+const int    N    = 1e5  + 9;
 const int    mod  = 1e9  + 7;
 const int    inf  = 2e9  + 9;
 const ll     modL = 1e9  + 7;
@@ -174,7 +176,7 @@ bool debug = { 1 };
 
 void cumbia420PaLosCheems(int testCase) { /* ESTA VA POR CHEEMSITO :'v */
 	
-}
+} 
  
 int main() {
 	cin.tie(0); ios_base::sync_with_stdio(0);
@@ -186,6 +188,9 @@ int main() {
 }
  
 void init() {
-	cerr << "mira que te como hermanoo !!! " << endl;
+	//freopen("ccski.in", "r", stdin);
+	//freopen("ccski.out", "w", stdout);
+	if(debug)
+		cerr << "mira que te como hermanoo !!! " << endl;
     
 }
