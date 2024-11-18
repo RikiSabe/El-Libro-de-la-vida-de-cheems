@@ -17,6 +17,18 @@ long long numberOfDivisors(long long num) {
     return total;
 }
 
+vector<int> getDivs(int n) { // get divisors
+    vector<int> divisors;
+    for (int i = 1; i <= sqrt(n); ++i) {
+        if (n % i == 0) {
+            divisors.push_back(i); 
+            if (i != n / i) {
+                divisors.push_back(n / i);
+            }
+        }
+    }
+	return divisors;
+}
 
 // Sum of divisors
 long long SumOfDivisors(long long num) {
