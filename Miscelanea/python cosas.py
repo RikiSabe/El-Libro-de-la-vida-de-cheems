@@ -2,6 +2,8 @@
 x = 1
 print(eval('x + 1'))
 
+import random
+cadena_aleatoria = ''.join(random.choices('123456789', k=100))
 
 // operaciones con fechas
 from datetime import datetime
