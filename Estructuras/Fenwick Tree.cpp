@@ -1,16 +1,4 @@
-/*
-int lower_find(int val) { /// last value < or <= to val
-  int idx = 0;
-  for(int i = 31-__builtin_clz(n); i >= 0; --i) {
-    int nidx = idx | (1 << i);
-    if(nidx <= n && bit[nidx] <= val) { /// change <= to <
-      val -= bit[nidx];
-      idx = nidx;
-    }
-  }
-  return idx;
-}
-*/
+
 struct FenwickTree {
     
     int sz;
@@ -37,4 +25,16 @@ struct FenwickTree {
     ll qry(int l, int r) {
         return qry(r) - qry(l - 1);
     }
+
+	int lower_find(int val) { 
+		int idx = 0;
+		for(int i = 31 - __builtin_clz(sz); i >= 0; --i) {
+			int nidx = idx | (1 << i);
+			if(nidx <= sz && FT[nidx] <= val) { /// change <= to <
+				val -= FT[nidx];
+				idx = nidx;
+			}
+		}
+		return idx;
+	}
 };
