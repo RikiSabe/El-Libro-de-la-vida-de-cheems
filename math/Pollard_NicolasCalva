@@ -57,11 +57,15 @@ void init_sv(){
 }
 void fact(ll n, map<ll,int>& f){ // call init_sv first!!!
   for(auto&& p:f){
-    while(n%p.F==0){
-      p.S++; n/=p.F;
+    while(n%p.first==0){
+      p.second++; n/=p.first;
     }
   }
   if(n<MAXP)while(n>1)f[sv[n]]++,n/=sv[n];
   else if(rabin(n))f[n]++;
   else {ll q=rho(n);fact(q,f);fact(n/q,f);}
+}
+
+void init() {
+    init_sv();
 }
