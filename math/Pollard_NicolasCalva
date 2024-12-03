@@ -107,5 +107,6 @@ void solve(int testCase) { // cortecia del rikisabe
 }
 
 void init(){
+    // sin esto da TLE
     init_sv();
 }
