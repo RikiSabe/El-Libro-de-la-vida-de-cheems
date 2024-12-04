@@ -1,9 +1,18 @@
-ll binpow(ll a, ll b, ll m){
+ll gcd(ll a, ll b){
+    return a ? gcd( b % a, a ) : b;
+}
+
+ll mulmod(ll a, ll b, ll m) {
+    ll r = a*b-(ll)((long double)a*b / m+.5)*m;
+    return r < 0 ? r+m : r;
+}
+
+ll expmod(ll a, ll b, ll m){
     a %= m;
-    ll res = 1LL;
+    ll res = 1;
     while(b > 0){
-        if( b & 1LL ) res = (res * a) % m;
-        a = (a * a) % m;
+        if( b & 1 ) res = mulmod(res, a, m);
+        a = mulmod(a, a, m);
         b >>= 1;
     }
     return res;
@@ -11,21 +20,20 @@ ll binpow(ll a, ll b, ll m){
 
 bool is_prime_prob(ll n, int a){
     if(n == a)return true;
-    ll s = 0, d = n - 1LL;
-    while(d % 2LL == 0) { s++; d >>= 1LL;}
-    ll x = binpow(a, d, n);
-    if( (x == 1LL) || (x + 1LL == n) ) return true;
-    FOR(_, 0, s - 1LL){
-        // x = mulmod(x,x,n);
-        x = (x * x) % n;
-        if(x == 1LL) return false;
-        if(x + 1LL == n) return true;
+    ll s = 0,d = n-1;
+    while(d%2 == 0) { s++; d /= 2;}
+    ll x = expmod(a, d, n);
+    if( (x == 1) || (x+1 == n) ) return true;
+    FOR(_, 0, s-1){
+        x = mulmod(x,x,n);
+        if(x == 1) return false;
+        if(x+1 == n) return true;
     }
     return false;
 }
 
 bool rabin(ll n){ // true iff n is prime
-    if(n == 1LL) return false;
+    if(n == 1) return false;
     int ar[] = {2,3,5,7,11,13,17,19,23};
     FOR(i,0,9) {
         if(!is_prime_prob(n, ar[i])) return false;
@@ -37,36 +45,36 @@ bool rabin(ll n){ // true iff n is prime
 const int MAXP = 1e6+1; // sieve size
 int sv[MAXP]; // sieve
 
-ll add(ll a, ll b, ll m){ 
-    return (a += b) < m ? a : a-m; 
+ll add(ll a, ll b, ll m){
+    return (a += b) < m ? a : a-m;
 }
 
 ll rho(ll n){
     static ll s[MAXP];
     while( 1 ){
         ll x = rand() % n, y = x, c = rand() % n;
-        ll *px = s, *py = s, v = 0LL, p = 1LL;
+        ll *px = s,*py = s,v = 0,p = 1;
         while( 1 ){
-            *py++ = y = add((y * y) % n, c, n);
-            *py++ = y = add((y * y) % n, c, n);
+            *py++ = y = add(mulmod(y,y,n),c,n);
+            *py++ = y = add(mulmod(y,y,n),c,n);
             if((x = *px++) == y) break;
             ll t = p;
-            p = (p * abs(y - x)) % n;
-            if(!p) return __gcd(t, n);
+            p = mulmod(p,abs(y-x),n);
+            if(!p) return gcd(t,n);
             if(++v == 26){
-                if((p=gcd(p,n)) > 1LL && p < n) return p;
+                if((p=gcd(p,n)) > 1 && p < n) return p;
                 v = 0;
             }
         }
-        if(v && (p=__gcd(p, n)) > 1LL && p < n) return p;
+        if(v && (p=gcd(p,n)) > 1 && p < n) return p;
     }
 }
 
 void init_sv(){
     FOR(i,2,MAXP) {
         if( !sv[i] ){
-            for(ll j = i ; j < MAXP ; j += i) {
-                sv[j] = i;
+            for(ll j=i;j<MAXP;j+=i) {
+                sv[j]=i;
             }
         }
     }
@@ -80,9 +88,9 @@ void fact(ll n, map<ll,int>& f){ // call init_sv first!!!
         }
     }
     if(n < MAXP) {
-        while(n > 1LL){
+        while(n > 1){
             f[ sv[n] ]++;
-            n /= sv[n];
+            n/=sv[n];
         }
     }
     else if( rabin(n) ) {
@@ -90,19 +98,7 @@ void fact(ll n, map<ll,int>& f){ // call init_sv first!!!
     }
     else {
         ll q = rho(n);
-        fact(q, f);
-        fact(n/q, f);
+        fact(q,f);
+        fact(n/q,f);
     }
-}
-
-void solve(int testCase) { // cortecia del rikisabe
-    ll n; cin >> n;
-    map<ll,int> factors;
-    fact(n, factors);
-    debugIterablePairs(factors);
-}
-
-void init(){
-    // sin esto da TLE
-    init_sv();
 }
