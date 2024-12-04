@@ -102,3 +102,14 @@ void fact(ll n, map<ll,int>& f){ // call init_sv first!!!
         fact(n/q,f);
     }
 }
+
+void solve(){
+    ll n; cin >> n;
+    map<ll,int> factors;
+    fact(n, factors);
+    debugIterablePairs(factors);
+}
+
+void init(){
+    init_sv(); 
+}
