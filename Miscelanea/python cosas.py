@@ -78,3 +78,6 @@ except ValueError:
 
 if elemento_a_buscar in sl:
     print(f"{elemento_a_buscar} existe en la lista.")
+
+// binario sin zeros a la izquierda
+binario = bin(x)[2:]
