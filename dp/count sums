@@ -1,0 +1,9 @@
+ dp[0] = 1;
+	FOR(i, 1, N + 1) {
+		for(int j = N - 1; j >= 0; j --) {
+			if(j - i >= 0) {
+				dp[j] += dp[j - i];
+				dp[j] %= mod;
+			}
+		}
+	} 
