@@ -1,0 +1,12 @@
+void countSubMasks(int x) {
+    int original = x;
+    //F[x]++;
+    for (int bit = x; bit > 0; bit = (bit - 1) & x) {
+        F[bit]++;
+    }
+}
+
+/* 
+13 = 1101
+add +1 to: 13 12 9 8 5 4 1
+*/
