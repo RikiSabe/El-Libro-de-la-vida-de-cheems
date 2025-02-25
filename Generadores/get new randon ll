@@ -1,0 +1,13 @@
+map<ll, bool> used;
+ll getNewRandom() {
+    static random_device rd;  
+    static mt19937 gen(rd());
+    static uniform_int_distribution<long long> dis(1, 9870000000000LL); // Rango entre 1 y 10^12
+
+    long long large_random_number = dis(gen);
+    while (used[large_random_number]) {
+        large_random_number = dis(gen);
+    }
+    used[large_random_number] = true;
+    return large_random_number;
+}
