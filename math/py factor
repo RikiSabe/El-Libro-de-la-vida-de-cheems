@@ -1,0 +1,7 @@
+import subprocess
+
+def prime_factorization(x: int) -> list[int]:
+    out = subprocess.run(["factor", str(x)], stdout=subprocess.PIPE, check=True).stdout
+    return [int(x) for x in out.decode().strip().split(" ")[1:]]
+
+print(prime_factorization(547226060779875))
