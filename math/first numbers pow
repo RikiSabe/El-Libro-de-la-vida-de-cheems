@@ -1,0 +1,8 @@
+ll a, b, n; cin >> a >> b >> n;
+long double x, y;
+x = b * log10(a);
+y = floor(pow(10, x - floor(x) + n - 1));
+ll ans = y;
+cout << ans << endl;
+
+// first n digits of a^b 
