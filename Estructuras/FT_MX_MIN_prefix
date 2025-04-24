@@ -1,0 +1,27 @@
+struct FT_Max_Min {
+	int sz; ll mx_mn_val;
+    vector<ll> FT;
+	FT_Max_Min(int n, ll default_value) {
+        n += 10;
+        this->sz = n;
+		this->mx_mn_val = default_value;
+        FT.assign(sz, default_value);
+    }
+	void update(int pos, ll val) {
+		pos ++;
+		ll ans = mx_mn_val;
+		while(pos < sz) {
+			FT[pos] = max(FT[pos], val); // max for this case
+			pos += (pos & -pos);
+		}
+	}
+	ll qry(int pos) { // get max/min [1, pos]
+		ll ans = mx_mn_val;
+		pos ++;
+		while (pos > 0) {
+			ans = max(ans, FT[pos]);
+			pos -= (pos & -pos);
+		}
+		return ans;
+	}
+};
