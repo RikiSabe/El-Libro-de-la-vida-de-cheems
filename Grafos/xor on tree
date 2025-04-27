@@ -1,0 +1,41 @@
+
+void bfs() {
+	queue<int> Q; 
+	Q.push(1); visited[1] = 1;
+	while(!Q.empty()) {
+		int u = Q.front(); Q.pop();
+		for(ii vv : G[u]) {
+			if(!visited[vv.first]) {
+				visited[vv.first] = 1;
+				Dist[vv.first] = Dist[u] ^ vv.second;
+				Q.push(vv.first);
+			}
+		}
+	}
+}
+
+void cumbia420PaLosCheems(int testCase) { /* ESTA VA POR CHEEMSITO :'v */
+	int n; cin >> n;
+	int u, v, w;
+	FOR(i, 0, n - 1) {
+		cin >> u >> v >> w;
+		G[u].pb(ii(v, w));
+		G[v].pb(ii(u, w));
+	}
+	bfs();
+	ll ans = 0;
+	for(int bit = 0; bit < 30; bit ++) {
+		ll F[2] = {0};
+		FOR(node, 1, n + 1) {
+			if(Dist[node] & (1 << bit)) {
+				F[1] ++;
+			}
+			else {
+				F[0] ++;
+			}
+		}
+		ll tot = F[0] * F[1];
+		ans += tot * (1LL << bit);	
+	}
+	cout << ans << endl;
+} 
