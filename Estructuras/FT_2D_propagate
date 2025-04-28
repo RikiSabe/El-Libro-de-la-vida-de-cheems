@@ -1,0 +1,57 @@
+
+struct Fenwick2D {
+    int n, m;
+    vector<vector<ll>> A, B, C, D;
+
+    Fenwick2D(int _n, int _m) : n(_n), m(_m) {
+        A.assign(n + 2, vector<ll>(m + 2, 0));
+        B.assign(n + 2, vector<ll>(m + 2, 0));
+        C.assign(n + 2, vector<ll>(m + 2, 0));
+        D.assign(n + 2, vector<ll>(m + 2, 0));
+    }
+
+    void _add(vector<vector<ll>> &bit, int x, int y, ll val) {
+        for (int i = x; i <= n; i += (i & -i))
+            for (int j = y; j <= m; j += (j & -j))
+                bit[i][j] += val;
+    }
+
+    void add(int x, int y, ll val) {
+        _add(A, x, y, val);
+        _add(B, x, y, val * (x - 1));
+        _add(C, x, y, val * (y - 1));
+        _add(D, x, y, val * (x - 1) * (y - 1));
+    }
+
+    void update(int x1, int y1, int x2, int y2, ll val) {
+        add(x1, y1, val);
+        add(x1, y2 + 1, -val);
+        add(x2 + 1, y1, -val);
+        add(x2 + 1, y2 + 1, val);
+    }
+
+    ll _query(const vector<vector<ll>> &bit, int x, int y) {
+        ll res = 0;
+        for (int i = x; i > 0; i -= (i & -i))
+            for (int j = y; j > 0; j -= (j & -j))
+                res += bit[i][j];
+        return res;
+    }
+
+    ll prefix(int x, int y) {
+        ll sumA = _query(A, x, y);
+        ll sumB = _query(B, x, y);
+        ll sumC = _query(C, x, y);
+        ll sumD = _query(D, x, y);
+        return sumA * x * y - sumB * y - sumC * x + sumD;
+    }
+
+    ll qry(int x1, int y1, int x2, int y2) {
+        return prefix(x2, y2)
+             - prefix(x1 - 1, y2)
+             - prefix(x2, y1 - 1)
+             + prefix(x1 - 1, y1 - 1);
+    }
+};
+
+// upate and qry are util methods
