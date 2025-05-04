@@ -26,6 +26,11 @@ struct FenwickTree {
         return qry(r) - qry(l - 1);
     }
 
+	void setVal(int pos, ll v) {
+		pos ++;
+		upd(pos, -(qry(pos) - qry(pos - 1))); upd(pos, v);
+	}
+
 	int lower_find(int val) { 
 		int idx = 0;
 		for(int i = 31 - __builtin_clz(sz); i >= 0; --i) {
