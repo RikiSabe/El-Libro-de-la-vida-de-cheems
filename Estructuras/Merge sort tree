@@ -1,0 +1,53 @@
+struct Node {
+	vector<int> A;
+};
+
+int n;
+
+vector<int> A; // don't forget fill this vectors
+vector<Node> ST;
+
+void build(int node, int l, int r){
+	if(l == r) {
+		ST[node].A.push_back( A[l] );
+		return;
+	}
+	int m = (l + r) / 2;
+	build(2 * node, l, m);
+	build(2 * node + 1, m + 1, r);
+	merge(
+		ST[2 * node].A.begin(),
+		ST[2 * node].A.end(),
+		ST[2 * node + 1].A.begin(),
+		ST[2 * node + 1].A.end(),
+		back_inserter(ST[node].A)
+	);
+}
+
+ll qry(int node, int l, int r, int ql, int qr, int k) {
+	if(ql == l && qr == r) {
+		int idx = ub(all(ST[node].A), k - 1) - ST[node].A.begin(); 
+		return idx;
+	}
+	int m = (l + r) / 2;
+	if(qr <= m) {
+		return qry(2 * node + 0, l, m, ql, qr, k);
+	}
+	if(ql > m) {
+		return qry(2 * node + 1, m + 1, r, ql, qr, k);
+	}
+	else {
+		ll qry1 = qry(2 * node, l, m, ql, m, k);
+		ll qry2 = qry(2 * node + 1, m + 1, r, m + 1, qr, k);
+		return qry1 + qry2;
+	}
+}
+
+ll qry(int l, int r, int k) {
+	return qry(1, 1, n, l , r, k);
+}
+
+int qry(int l, int r, int a, int b) {
+	if(l > r) return 0;
+	return qry(l, r, b) - qry(l, r, a); // how many  >= a & <=b in range [l,r] indexed by 1
+}
