@@ -19,3 +19,8 @@ ll C(int n, int k){
 	if (n < k) return 0LL; 
 	return fact[n] * fact_inv[n - k] % modL * fact_inv[k] % modL;
 };
+
+ll C_mod2(int n, int k) { // combi mod 2
+	if (k < 0 || k > n) return 0;
+	return ((k & ~n) == 0) ? 1 : 0;
+}
