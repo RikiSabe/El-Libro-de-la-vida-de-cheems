@@ -1,0 +1,15 @@
+const int MAXN = 100005;
+
+vector<vector<int>> graph(MAXN);
+int in[MAXN], out[MAXN];
+int timer = 0;
+
+void dfs(int u, int parent) {
+    in[u] = timer++;
+    for (int v : graph[u]) {
+        if (v != parent) {
+            dfs(v, u);
+        }
+    }
+    out[u] = timer - 1;
+}
