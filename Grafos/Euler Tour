@@ -1,12 +1,11 @@
-const int MAXN = 100005;
+vector<int> G[N];
 
-vector<vector<int>> graph(MAXN);
-int in[MAXN], out[MAXN];
+int in[N], out[N];
 int timer = 0;
 
-void dfs(int u, int parent) {
-    in[u] = timer++;
-    for (int v : graph[u]) {
+void dfs(int u, int parent = 0) {
+    in[u] = timer ++;
+    for (int v : G[u]) {
         if (v != parent) {
             dfs(v, u);
         }
