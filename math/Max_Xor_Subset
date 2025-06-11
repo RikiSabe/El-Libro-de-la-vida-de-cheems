@@ -1,0 +1,16 @@
+def max_xor_subset(arr): # A = list(map(int, input().split()))
+    basis = [0] * 32  # Base de Gauss para 32 bits
+
+    for x in arr:
+        for i in reversed(range(32)):  # Desde el bit más alto al más bajo
+            if (x >> i) & 1:
+                if basis[i] == 0:
+                    basis[i] = x
+                    break
+                x ^= basis[i]
+
+    res = 0
+    for b in basis:
+        res = max(res, res ^ b)
+
+    return res
