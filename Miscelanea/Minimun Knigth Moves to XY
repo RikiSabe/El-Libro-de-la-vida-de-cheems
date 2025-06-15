@@ -1,0 +1,36 @@
+import sys
+input = sys.stdin.readline
+
+def solve_single_dimension(x):
+    if x == 0:
+        return (0, 3)
+    
+    x = abs(x)
+    min_moves = (x + 1) // 2
+    if min_moves % 2 == 0:
+        return (min_moves, min_moves + 1)
+    else: 
+        return (min_moves + 1, min_moves)
+
+T = int(input())
+results = []
+
+for _ in range(T):
+    x, y, X, Y = map(int, input().split())
+    
+    dx = X - x
+    dy = Y - y
+    
+    if dx == 0 and dy == 0:
+        results.append(0)
+        continue
+    
+    x_even, x_odd = solve_single_dimension(dx)
+    y_even, y_odd = solve_single_dimension(dy)
+    
+    ans_even = max(x_even, y_even)
+    ans_odd = max(x_odd, y_odd)
+    
+    results.append(min(ans_even, ans_odd))
+
+sys.stdout.write('\n'.join(map(str, results)) + '\n')
