@@ -4,7 +4,7 @@ bool cmp(int a, int b) {
 	return S[a] < S[b];
 }
 
-vector<int> buildSuffixArray(string& s){ // O(n logn)
+vector<int> buildSuffixArray(string& s) {
 	int n = s.size(), cc = 0;
 	S = s;
 	vector<int> sa(n), sa1(n), col(n, -1), col1(n), head(n);
