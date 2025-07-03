@@ -1,10 +1,10 @@
-ll binpow(ll a, ll b, ll MOD) {
-    a %= MOD;
+ll binpow(ll a, ll b, ll modP = modL) {
+    a %= modP;
     ll ans = 1LL;
     while (b > 0) {
         if (b & 1)
-            ans = (ans * a) % MOD;
-        a = (a * a) % MOD;
+            ans = (ans * a) % modP;
+        a = (a * a) % modP;
         b >>= 1;
     }
     return ans;
