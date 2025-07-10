@@ -1,0 +1,9 @@
+ll calculateSumOfDifferences(vector<int>& coords) {
+    sort(coords.begin(), coords.end());
+    int n = coords.size();
+    long long sum = 0;
+    for (ll i = 0; i < n; i++) {
+        sum += (ll)coords[i] * (2 * i - n + 1);
+    }
+    return sum;
+}
