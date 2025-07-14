@@ -1,0 +1,16 @@
+int n; cin >> n;
+	vector<int> A(n), B(n);
+	FOR(i, 0, n) cin >> A[i];
+	FOR(i, 0, n) cin >> B[i];
+	dp[0] = 1;
+
+	FOR(mask, 1, (1 << n)) {
+		int cur = __builtin_popcount(mask);
+		FOR(i, 0, n) {
+			if( (mask & (1 << i)) && A[cur - 1] <= B[i]) {
+				dp[mask] += dp[mask ^ (1 << i)];
+			}	
+		}
+	}
+	cout << dp[(1 << n) - 1] << endl;
+// cuantas permus de A hay tal que a_i <= b_i
