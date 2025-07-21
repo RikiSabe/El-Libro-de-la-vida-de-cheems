@@ -1,6 +1,6 @@
 /*
 
-	@author :  -
+	@author :  LEOmnel_CHEEMSsi_420
 	
 	AGUANTE CORAZON, AGUANTE
 
@@ -12,16 +12,28 @@
 
 	La cumbia de los Cheems :v
 	....
+	
+	Viene el fin de semana, todo' a la cancha vamos a ir
+	Está todo preparado, el bombo y el trapo para salir
 	Al equipo que tiene más aguante
 	Lo llevo dentro del corazón
 	Saltando, cantando, prendidos a los trapos
 	Dejamos el almaaaaaaa.... en el score
-	
 
 	dale dale Cheems! dale Cheeeeeeeemmmsss !!!!!
 
+	
+	----------------------------------------------------------------
+	Pal MbapCheems:
 
-
+	Escuchen, corran la bola
+	juegan en Francia pero son todos de Angola
+	Que lindo eeees van a correeer
+	son cometrabas como el puto de Mbappe
+	Su vieja es nigeriana
+	Su viejo camerunes
+	Pero en el documento.... nacionalidad frances
+	----------------------------------------------------------------
 
 
 		EL MESSIas <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 
@@ -136,6 +148,7 @@ using namespace __gnu_pbds;
 #define debug1(A)           	if(debug) { cerr << "? " << #A << " : " << A << endl; }
 #define debug2(A, B)            if(debug) { cerr << "? [ " << #A << " = " << A << " | " << #B << " = " << B << " ]" << endl; }
 #define debug3(A, B, C)         if(debug) { cerr << "? [ " << #A << " = " << A << " | " << #B << " = " << B << " | " << #C << " = " << C << " ]" << endl; }
+#define debug4(A, B, C, D)      if(debug) { cerr << "? [ " << #A << " = " << A << " | " << #B << " = " << B << " | " << #C << " = " << C << " | " << #D << " = " << D << " ]" << endl; }
 #define debugPair(a) 			if(debug) { cerr << "? " << #a << ": ( " << a.first << " , " << a.second << " )" << endl; }
 #define debugList(A)            if(debug) { cerr << "? " << #A << ": "; if(debug) { bool leonelCheems = 0; cerr << "[ ";  for(auto x : A) { if(!leonelCheems) cerr << x , leonelCheems = 1; else cerr << " , " << x ;} cerr << " ]" << endl; } }
 #define printList(A) 		    { bool leonelCheems = 0; for(auto x : A) { if(!leonelCheems) {cout << x; leonelCheems = 1;}else {cout << " " << x;}} cout << endl; }
@@ -175,9 +188,18 @@ void init();
 bool debug = { 1 };
 
 void cumbia420PaLosCheems(int testCase) { /* ESTA VA POR CHEEMSITO :'v */
-	
+		
 } 
- 
+
+/*
+	- Vos creés que vamos a ganar la pelea?
+	- Las peleas no se ganan Gaspi, las peleas se dan, y nosotros hicimos TODO para poder darla
+
+	!Equipo !Coach !Camps desventaja=true
+	PORQUE TIENE QUE SER TAN DIFICIL CARAJOOOOO !!!!????
+		- Bananitas FC
+*/
+
 int main() {
 	cin.tie(0); ios_base::sync_with_stdio(0);
 	init();
@@ -188,6 +210,7 @@ int main() {
 }
  
 void init() {
+	// srand(time(0));
 	//freopen("ccski.in", "r", stdin);
 	//freopen("ccski.out", "w", stdout);
 	if(debug)
