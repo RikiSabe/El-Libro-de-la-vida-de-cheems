@@ -1,0 +1,38 @@
+
+ll k;
+
+bool f(const vector<ll>& A, const vector<ll>& B, ll x) {
+    int n = A.size();
+    ll count = 0;
+    int j = B.size() - 1;
+    FOR(i, 0, n) {
+        while (j >= 0 && A[i] + B[j] > x) j --;
+        count += (j + 1);
+    }
+    return count >= k;
+}
+
+void cumbia420PaLosCheems(int testCase) { /* ESTA VA POR CHEEMSITO :'v */
+    ll n; cin >> n >> k;
+    vector<ll> A(n);
+    FOR(i, 0, n) cin >> A[i];
+    sort(all(A));
+
+    vector<ll> B = A;
+    sort(all(B)); // re pelotudo pero a la segura xd
+    
+    ll mn = A[0] + B[0];
+
+    ll l = A[0] + B[0];
+    ll r = A[n - 1] + B[n - 1];
+    int it = 64;
+    while (l < r && it --) {
+        ll m = (l + r) / 2;
+        bool resp = f(A, B, m);
+        if (resp) r = m;
+        else l = m + 1;
+    }
+    while(f(A, B, l) && l > mn) l --;
+    while(!f(A, B, l)) l ++;
+    cout << l << endl;
+} 
