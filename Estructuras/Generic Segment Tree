@@ -7,7 +7,7 @@ Node ST[4 * N];
 vector<int> A(N); 
 int n;
  
-Node merge(Node A, Node B) {
+Node merge(Node &A, Node &B) {
 	Node C;
 	
 	C.mx = max(A.mx, B.mx);
