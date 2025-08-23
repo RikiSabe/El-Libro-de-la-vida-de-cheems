@@ -81,3 +81,10 @@ if elemento_a_buscar in sl:
 
 // binario sin zeros a la izquierda
 binario = bin(x)[2:]
+
+#count bits py
+x = 29  # binario: 11101
+print(x.bit_count())           # Salida: 4
+print(bin(x).count('1'))       # También: 4
+
+
