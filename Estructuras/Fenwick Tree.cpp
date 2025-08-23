@@ -27,7 +27,7 @@ struct FenwickTree {
     }
 
 	void setVal(int pos, ll v) {
-		pos ++;
+		//pos ++; cuidau aqui
 		upd(pos, -(qry(pos) - qry(pos - 1))); upd(pos, v);
 	}
 
@@ -43,3 +43,4 @@ struct FenwickTree {
 		return idx;
 	}
 };
+
