@@ -1,0 +1,45 @@
+// FWHT para XOR convolution
+void fwht(vector<long long>& a, bool invert) {
+    int n = a.size();
+    for (int len = 1; 2 * len <= n; len <<= 1) {
+        for (int i = 0; i < n; i += 2 * len) {
+            for (int j = 0; j < len; ++j) {
+                long long u = a[i + j];
+                long long v = a[i + j + len];
+                a[i + j] = u + v;
+                a[i + j + len] = u - v;
+            }
+        }
+    }
+
+    if (invert) {
+        for (int i = 0; i < n; ++i)
+            a[i] /= n;
+    }
+}
+
+// XOR convolution: devuelve vector donde result[x] es la cantidad de pares (a_i, a_j) con a_i ^ a_j == x
+vector<long long> xor_convolution(const vector<int>& input) {
+    int max_elem = 0;
+    for (int x : input)
+        max_elem = max(max_elem, x);
+
+    int size = 1;
+    while (size <= 2 * max_elem) size <<= 1;
+
+    vector<long long> freq(size, 0);
+    for (int x : input)
+        freq[x]++;
+
+    // Aplicamos la transformada FWHT
+    fwht(freq, false);
+
+    // Element-wise square
+    for (int i = 0; i < size; ++i)
+        freq[i] *= freq[i];
+
+    // Transformada inversa
+    fwht(freq, true);
+
+    return freq;
+}
