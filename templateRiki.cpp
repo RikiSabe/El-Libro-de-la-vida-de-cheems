@@ -6,14 +6,12 @@ using namespace std;
 typedef long long int ll;
 typedef unsigned long long int ull;
 
-#define all(v) v.begin(),v.end() 
+#define all(v) v.begin(),v.end()
 #define rall(v) v.rbegin(),v.rend()
-
-#define ii    pair<int,int> 
-
-#define FOR(i, l, r)        	for(int i = l; i < r ; i ++)
+#define FOR(i, l, r) for(int i = l; i < r ; i ++)
+#define sz(A) (int)A.size()
+#define ii pair<int,int>
 #define endl '\n';
-#define sz(A) 					(int)A.size()
 
 const int    N    = 1e5  + 9;
 const int    mod  = 1e9  + 7;
@@ -24,16 +22,16 @@ const double pi   = acos(-1);
 
 void init();
 
-void PorLaCheemsia(int testCase) { 
-	// code
+void comeback(int testCase) { 
+	
 } 
  
 int main() {
 	cin.tie(0); ios_base::sync_with_stdio(0);
 	init();
 	int t = 1;
-	//cin >> t;
-	FOR(i, 1, t + 1) PorLaCheemsia(i);
+	cin >> t;/
+	FOR(i, 1, t + 1) comeback(i);
 	return 0;
 }
 
