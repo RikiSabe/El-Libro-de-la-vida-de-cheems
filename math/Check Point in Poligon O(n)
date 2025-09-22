@@ -1,0 +1,29 @@
+bool ok(vector<ii> P, int xq, int yq) { // P is convex and counter-clockwise
+    int n = P.size();
+    int wn = 0; 
+
+    FOR(i, 0, n) {
+        ii p1 = P[i], p2 = P[(i + 1) % n];
+        ll cross = CrossProduct(
+            p2.first - p1.first,
+            p2.second - p1.second,
+            xq - p1.first,
+            yq - p1.second
+        );
+
+        if (cross == 0 &&
+            min(p1.first, p2.first) <= xq && xq <= max(p1.first, p2.first) &&
+            min(p1.second, p2.second) <= yq && yq <= max(p1.second, p2.second)) {
+            return 1;
+        }
+
+        if (p1.second <= yq) {
+            if (p2.second > yq && cross > 0) wn ++;
+        } 
+        else {
+            if (p2.second <= yq && cross < 0) wn --;
+        }
+    }
+
+    return wn != 0;
+}
