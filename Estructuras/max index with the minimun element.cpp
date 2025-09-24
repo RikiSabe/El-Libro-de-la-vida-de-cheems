@@ -1,6 +1,6 @@
 	int n; cin >> n;
 	vector<ll> A(n); FOR(i, 0, n) cin >> A[i];
-	vector<ll> prev(n, 1), nxt(n, n); // siguiente menor a la derecha, anterior menor a la izquierda
+	vector<ll> prev(n, 1), nxt(n, n); // hasta donde soy menor a la izq/derecha
 	stack<int> ps, ns;
 	FOR(i, 0, n) {
 		while(ns.size() && A[ns.top()] > A[i]) {
