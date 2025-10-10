@@ -10,5 +10,5 @@ void dfs(int u, int parent = 0) {
             dfs(v, u);
         }
     }
-    out[u] = timer - 1;
+    out[u] = timer - 1; // timer ++ to use magic check antecesor
 }
