@@ -3,11 +3,10 @@ vector<ll> fact(N);
 vector<ll> fact_inv(N);
 
 void init() {
-    	inv[1] = 1;
-    	for(int i = 2; i < N; i ++) { 
-	inv[i] = modL - (modL / i) * inv[modL % i] % modL; 
+    inv[1] = 1; fact[0] = 1; fact_inv[0] = 1;
+    for(int i = 2; i < N; i ++) { 
+		inv[i] = modL - (modL / i) * inv[modL % i] % modL; 
 	}
-	fact[0] = 1; fact_inv[0] = 1;
 	for(int i = 1; i < N; i ++) { 
 		fact[i] = (fact[i - 1] * i) % modL; 
 		fact_inv[i] = fact_inv[i - 1] * inv[i] % modL; 
