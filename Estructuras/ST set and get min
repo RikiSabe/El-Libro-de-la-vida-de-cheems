@@ -62,4 +62,10 @@ long long query(int node, int l, int r, int ql, int qr) {
     );
 }
 
- update(1, 1, n - 1, i, i, minStruct[i]); // node = 1
+                 update(1, 0, n - 1, i, i, VAL); // node = 1 OOOJOOOOO
+                 query(1, 0, n - 1, l, r) // node = 1 
+
+
+
+
+
