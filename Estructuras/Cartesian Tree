@@ -115,12 +115,12 @@ struct Treap { // https://cp-algorithms.com/data_structures/treap.html
 Treap tr;
 set<int> S;
 
-void insertData(int l, int r) {
+void insert(int l, int r) {
     if (l >= r) return;
     tr.insert({r - l, l});
 }
 
-void removeData(int l, int r) {
+void erase(int l, int r) {
     if (l >= r) return;
     tr.erase({r - l, l});
 }
@@ -131,31 +131,31 @@ void insert(int x) {
     int L = (it == S.begin() ? 0 : *prev(it));
     int R = (it == S.end()   ? inf : *it);
 
-    removeData(L + 1, R);
-    insertData(L + 1, x);
+    erase(L + 1, R);
+    insert(L + 1, x);
 
-    if (R != inf) insertData(x + 1, R);
+    if (R != inf) insert(x + 1, R);
 
     S.insert(x);
 }
 
-void eraseData(int x) {
+void erase(int x) {
     auto it = S.find(x);
 
     int L = (it == S.begin() ? 0 : *prev(it));
     int R = (next(it) == S.end() ? inf : *next(it));
 
-    removeData(L + 1, x);
+    erase(L + 1, x);
 
-    if (R != inf) removeData(x + 1, R);
-    if (R != inf)insertData(L + 1, R);
+    if (R != inf) erase(x + 1, R);
+    if (R != inf)insert(L + 1, R);
 
     S.erase(x);
 }
 
 int query(int k) {
     if (S.empty()) return 1;
-    return min( *S.rbegin() + 1, tr.query(k) );
+    return min( *S.rbegin() + 1, tr.query(k) ); // last one vs real qry
 }
 
 void build(const vector<int> A) {
@@ -163,23 +163,24 @@ void build(const vector<int> A) {
     tr = Treap();
     for (int x : A) S.insert(x);
 
-    insertData(1, *S.begin());
-
-    for (auto it = S.begin(); next(it) != S.end(); it ++) insertData(*it + 1, *next(it));
+    insert(1, *S.begin());
+    for (auto it = S.begin(); next(it) != S.end(); it ++) insert(*it + 1, *next(it));
 }
 
 
 void cumbia420PaLosCheems(int testCase) { /* Enojate mierda, estas aqui para pelear!!! */
     int n; cin >> n;
     vector<int> A(n); FOR(i, 0, n) cin >> A[i];
+
     build(A);
+
     int q; cin >> q;
     char cmd; int val;
 
     FOR(itq, 0, q) {
         cin >> cmd >> val;
         if (cmd == '+') insert(val);
-        else if (cmd == '-') eraseData(val);
+        else if (cmd == '-') erase(val);
         else cout << query(val) << " ";
     } cout << endl;
 } 
