@@ -1,0 +1,185 @@
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+struct Treap { // https://cp-algorithms.com/data_structures/treap.html
+
+    struct Node {
+        ii key;          // (X, Y) // sort first by X, in tie case use Y 
+        int prior;
+        int mn;          // minimum start in subtree
+        Node *l, *r;
+        Node(ii _key)
+            : key(_key),
+              prior(rng()),
+              mn(_key.second),
+              l(nullptr),
+              r(nullptr) {}
+    };
+
+    using pNode = Node*;
+
+    pNode root = nullptr;
+
+    int getmn(pNode t) {
+        return t ? t->mn : inf;
+    }
+
+    void upd(pNode t) {
+
+        if (!t) return;
+
+        t->mn = min({
+            t->key.second,
+            getmn(t->l),
+            getmn(t->r)
+        });
+    }
+
+    void split(pNode t, ii x, pNode &L, pNode &R) {
+        if (!t) {
+            L = R = nullptr;
+            return;
+        }
+        if (t->key < x) {
+            split(t->r, x, t->r, R);
+            L = t;
+        }
+        else {
+            split(t->l, x, L, t->l);
+            R = t;
+        }
+        upd(t);
+    }
+
+    pNode merge(pNode L, pNode R) {
+        if (!L || !R) return L ? L : R;
+        if (L->prior > R->prior) {
+            L->r = merge(L->r, R);
+            upd(L);
+            return L;
+        }
+        else {
+            R->l = merge(L, R->l);
+            upd(R);
+            return R;
+        }
+    }
+
+    void insert(pNode &t, pNode it) {
+        if (!t) {
+            t = it; return;
+        }
+        if (it->prior > t->prior) {
+            split(t, it->key, it->l, it->r);
+            t = it;
+        }
+        else {
+            if (it->key < t->key) insert(t->l, it);
+            else insert(t->r, it);
+        }
+
+        upd(t);
+    }
+
+    void insert(ii key) {
+        insert(root, new Node(key));
+    }
+
+    void erase(pNode &t, ii key) {
+        if (!t) return;
+        if (t->key == key) {
+            pNode tmp = t;
+            t = merge(t->l, t->r);
+            delete tmp;
+        }
+        else {
+            if (key < t->key) erase(t->l, key);
+            else erase(t->r, key);
+        }
+        upd(t);
+    }
+
+    void erase(ii key) {
+        erase(root, key);
+    }
+
+    int query(int k) {
+        pNode L, R;
+        split(root, {k, -1}, L, R);
+        int ans = getmn(R);
+        root = merge(L, R);
+        return ans;
+    }
+};
+
+Treap tr;
+set<int> S;
+
+void insertData(int l, int r) {
+    if (l >= r) return;
+    tr.insert({r - l, l});
+}
+
+void removeData(int l, int r) {
+    if (l >= r) return;
+    tr.erase({r - l, l});
+}
+
+void insert(int x) {
+
+    auto it = S.lower_bound(x);
+    int L = (it == S.begin() ? 0 : *prev(it));
+    int R = (it == S.end()   ? inf : *it);
+
+    removeData(L + 1, R);
+    insertData(L + 1, x);
+
+    if (R != inf) insertData(x + 1, R);
+
+    S.insert(x);
+}
+
+void eraseData(int x) {
+    auto it = S.find(x);
+
+    int L = (it == S.begin() ? 0 : *prev(it));
+    int R = (next(it) == S.end() ? inf : *next(it));
+
+    removeData(L + 1, x);
+
+    if (R != inf) removeData(x + 1, R);
+    if (R != inf)insertData(L + 1, R);
+
+    S.erase(x);
+}
+
+int query(int k) {
+    if (S.empty()) return 1;
+    return min( *S.rbegin() + 1, tr.query(k) );
+}
+
+void build(const vector<int> A) {
+    S.clear();
+    tr = Treap();
+    for (int x : A) S.insert(x);
+
+    insertData(1, *S.begin());
+
+    for (auto it = S.begin(); next(it) != S.end(); it ++) insertData(*it + 1, *next(it));
+}
+
+
+void cumbia420PaLosCheems(int testCase) { /* Enojate mierda, estas aqui para pelear!!! */
+    int n; cin >> n;
+    vector<int> A(n); FOR(i, 0, n) cin >> A[i];
+    build(A);
+    int q; cin >> q;
+    char cmd; int val;
+
+    FOR(itq, 0, q) {
+        cin >> cmd >> val;
+        if (cmd == '+') insert(val);
+        else if (cmd == '-') eraseData(val);
+        else cout << query(val) << " ";
+    } cout << endl;
+} 
