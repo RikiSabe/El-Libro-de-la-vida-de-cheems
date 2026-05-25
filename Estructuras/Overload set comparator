@@ -1,0 +1,10 @@
+struct cmp {
+    bool operator()(ii a, ii b) const {
+        if (a.first == b.first) {
+            return a.second < b.second;
+        }
+        return a.first > b.first;
+    }
+};
+
+set<ii, cmp> S;
