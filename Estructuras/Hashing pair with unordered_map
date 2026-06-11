@@ -22,3 +22,16 @@ int main() {
 
     return 0;
 }
+
+# mapping ii to int (unordered map)
+
+struct PairHash {
+    template<class T, class U>
+    size_t operator()(const pair<T,U>& p) const {
+        auto h1 = hash<T>{}(p.first);
+        auto h2 = hash<U>{}(p.second);
+        return h1 ^ (h2 << 1);
+    }
+};
+
+unordered_map<pair<long long,int>, int, PairHash> dp;
