@@ -41,6 +41,23 @@ ll genll(ll a, ll b){
     return (a + rand() % (b - a + 1LL));
 }
 
+vector<iii> generateTree(int n) {
+    vector<iii> Tree;
+
+    FOR(i, 2, n + 1) {
+        int root = (1 + (rand() % (i - 1)));
+        int w = (rand() % 2);
+        Tree.pb({i, {root, w}});
+    }
+
+    FOR(i ,0, n) {
+        int id1 = rand() % Tree.size();
+        int id2 = rand() % Tree.size();
+        swap(Tree[id1], Tree[id2]);
+    }
+    return Tree;
+}
+
 void solve(int testCase) {
     srand(time(NULL));
     // vector<string> grid = gengrid(10,30); // [n,m]
