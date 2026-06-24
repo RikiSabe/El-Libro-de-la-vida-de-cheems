@@ -1,0 +1,22 @@
+  
+    int n; cin >> n;
+    vector<int> A(n);
+    FOR(i, 0, n) cin >> A[i];
+    sort(all(A));
+    
+    ll ans = 0;
+
+    FOR(i, 2, n) {
+        int l = 0, r = i - 1; 
+        while(l < r) {
+            if(A[l] + A[r] > A[i]) {
+                ans += r - l; 
+                r --; 
+            } 
+          	else {
+                l ++; 
+            }
+        }
+    }
+
+    cout << ans << endl;
