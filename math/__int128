@@ -1,0 +1,13 @@
+void print128(__int128 x) {
+    if (x < 0) { putchar('-'); x = -x; }
+    if (x > 9) print128(x / 10);
+    putchar((char)('0' + (int)(x % 10)));
+}
+
+void cumbia420PaLosCheems(int testCase) {
+    int n; cin >> n;
+    __int128 f = 1;
+    FOR(i, 0, n) f *= (__int128)(i + 1);
+    print128(f);
+    putchar('\n');
+}
