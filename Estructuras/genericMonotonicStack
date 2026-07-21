@@ -1,0 +1,19 @@
+// dir = +1 recorre izq→der (prev, sentinela -1); dir = -1 recorre der→izq (next, sentinela n)
+template <class Pop>
+vector<int> nearest(const vector<int>& A, int dir, Pop popIf) {
+    int n = A.size();
+    int none = (dir > 0 ? -1 : n);
+    vector<int> res(n, none);
+    stack<int> st;
+    for (int k = 0; k < n; k++) {
+        int i = (dir > 0 ? k : n - 1 - k);
+        while (!st.empty() && popIf(A[st.top()], A[i])) st.pop();
+        res[i] = st.empty() ? none : st.top();
+        st.push(i);
+    }
+    return res;
+}
+
+// Uso:
+// auto pg  = nearest(A, +1, [](int t, int x){ return t <= x; }); // prevGreater
+// auto nse = nearest(A, -1, [](int t, int x){ return t >  x; }); // nextSmallerEqual
