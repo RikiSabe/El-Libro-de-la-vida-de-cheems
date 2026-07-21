@@ -1,4 +1,5 @@
-// dir = +1 recorre izq→der (prev, sentinela -1); dir = -1 recorre der→izq (next, sentinela n)
+// dir = +1  ->  busca vecino a la IZQUIERDA (prev), sentinela -1
+// dir = -1  ->  busca vecino a la DERECHA  (next), sentinela  n
 template <class Pop>
 vector<int> nearest(const vector<int>& A, int dir, Pop popIf) {
     int n = A.size();
@@ -14,6 +15,14 @@ vector<int> nearest(const vector<int>& A, int dir, Pop popIf) {
     return res;
 }
 
-// Uso:
-// auto pg  = nearest(A, +1, [](int t, int x){ return t <= x; }); // prevGreater
-// auto nse = nearest(A, -1, [](int t, int x){ return t >  x; }); // nextSmallerEqual
+// ---------- IZQUIERDA (prev), dir = +1, "no existe" = -1 ----------
+auto prevGreater      = nearest(A, +1, [](int v, int a){ return v <= a; }); // v >  a
+auto prevGreaterEqual = nearest(A, +1, [](int v, int a){ return v <  a; }); // v >= a
+auto prevSmaller      = nearest(A, +1, [](int v, int a){ return v >= a; }); // v <  a
+auto prevSmallerEqual = nearest(A, +1, [](int v, int a){ return v >  a; }); // v <= a
+
+// ---------- DERECHA (next), dir = -1, "no existe" = n ----------
+auto nextGreater      = nearest(A, -1, [](int v, int a){ return v <= a; }); // v >  a
+auto nextGreaterEqual = nearest(A, -1, [](int v, int a){ return v <  a; }); // v >= a
+auto nextSmaller      = nearest(A, -1, [](int v, int a){ return v >= a; }); // v <  a
+auto nextSmallerEqual = nearest(A, -1, [](int v, int a){ return v >  a; }); // v <= a
