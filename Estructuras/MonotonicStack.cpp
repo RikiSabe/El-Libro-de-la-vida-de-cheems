@@ -1,56 +1,105 @@
-
-vector<ll> getPrevMin(int n, vector<ll> A) {
-    vector<ll> prev(n, 0);
-  	stack<int> ps;
-      for(int i = n - 1; i >= 0; i --) {
-  		while(ps.size() && A[ps.top()] > A[i])  {
-  			prev[ps.top()] = i + 1;
-  			ps.pop();
-  		}
-  		ps.push(i);
-  	}
-    return prev;
-}
-
-vector<ll> getNxtMin(int n, vector<ll> A) {
-    vector<ll> nxt(n, n + 1);
-  	stack<int> ns;
-      FOR(i, 0, n) {
-  		while(ns.size() && A[ns.top()] > A[i]) {
-  			nxt[ns.top()] = i + 1; ns.pop();
-  		}
-  		ns.push(i);
-  	}
-    return nxt;
-}
-
-vector<ll> getPrevMax(int n, vector<ll> A) {
-    vector<ll> prev(n, 0);
-  	stack<int> ps;
-      for(int i = n - 1; i >= 0; i --) {
-  		while(ps.size() && A[ps.top()] < A[i])  {
-  			prev[ps.top()] = i + 1;
-  			ps.pop();
-  		}
-  		ps.push(i);
-  	}
-    return prev;
-}
-
-vector<ll> getNxtMax(int n, vector<ll> A) {
-    vector<ll> nxt(n, n + 1); 
-    stack<int> ns;
-      FOR(i, 0, n) {
-      while(ns.size() && A[ns.top()] < A[i]) {
-        nxt[ns.top()] = i + 1; ns.pop();
-      }
-      ns.push(i);
+// Nearest j < i con A[j] > A[i]
+vector<int> prevGreater(const vector<int>& A) {
+    int n = A.size();
+    vector<int> res(n, -1);
+    stack<int> st;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && A[st.top()] <= A[i]) st.pop();
+        res[i] = st.empty() ? -1 : st.top();
+        st.push(i);
     }
-    return nxt;
+    return res;
+}
+
+// Nearest j < i con A[j] >= A[i]
+vector<int> prevGreaterEqual(const vector<int>& A) {
+    int n = A.size();
+    vector<int> res(n, -1);
+    stack<int> st;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && A[st.top()] < A[i]) st.pop();
+        res[i] = st.empty() ? -1 : st.top();
+        st.push(i);
+    }
+    return res;
+}
+
+// Nearest j < i con A[j] < A[i]
+vector<int> prevSmaller(const vector<int>& A) {
+    int n = A.size();
+    vector<int> res(n, -1);
+    stack<int> st;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && A[st.top()] >= A[i]) st.pop();
+        res[i] = st.empty() ? -1 : st.top();
+        st.push(i);
+    }
+    return res;
+}
+
+// Nearest j < i con A[j] <= A[i]
+vector<int> prevSmallerEqual(const vector<int>& A) {
+    int n = A.size();
+    vector<int> res(n, -1);
+    stack<int> st;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && A[st.top()] > A[i]) st.pop();
+        res[i] = st.empty() ? -1 : st.top();
+        st.push(i);
+    }
+    return res;
 }
 
 
-void cumbia420PaLosCheems(int testCase) {
-    int n; cin >> n;
-	  vector<ll> A(n); FOR(i, 0, n) cin >> A[i];
+
+// Nearest j > i con A[j] > A[i]
+vector<int> nextGreater(const vector<int>& A) {
+    int n = A.size();
+    vector<int> res(n, n);
+    stack<int> st;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && A[st.top()] <= A[i]) st.pop();
+        res[i] = st.empty() ? n : st.top();
+        st.push(i);
+    }
+    return res;
+}
+
+// Nearest j > i con A[j] >= A[i]
+vector<int> nextGreaterEqual(const vector<int>& A) {
+    int n = A.size();
+    vector<int> res(n, n);
+    stack<int> st;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && A[st.top()] < A[i]) st.pop();
+        res[i] = st.empty() ? n : st.top();
+        st.push(i);
+    }
+    return res;
+}
+
+// Nearest j > i con A[j] < A[i]
+vector<int> nextSmaller(const vector<int>& A) {
+    int n = A.size();
+    vector<int> res(n, n);
+    stack<int> st;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && A[st.top()] >= A[i]) st.pop();
+        res[i] = st.empty() ? n : st.top();
+        st.push(i);
+    }
+    return res;
+}
+
+// Nearest j > i con A[j] <= A[i]
+vector<int> nextSmallerEqual(const vector<int>& A) {
+    int n = A.size();
+    vector<int> res(n, n);
+    stack<int> st;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && A[st.top()] > A[i]) st.pop();
+        res[i] = st.empty() ? n : st.top();
+        st.push(i);
+    }
+    return res;
 }
