@@ -31,3 +31,7 @@ void init() {
   
 	debugList(primis);
 }
+
+// count pairs x,y lcm(x,y) = A
+// p^e*p^e1....
+// ans *= (2*e_i + 1)
