@@ -34,9 +34,9 @@ struct SparseTable {
         if (arr[st[L][j]] <= arr[st[R - (1 << j) + 1][j]]) return st[L][j];
         else return st[R - (1 << j) + 1][j];
     }
-    int query2(int L, int R) const { // return just the minimun value
-	int j = log[R - L + 1];
-	return min(arr[st[L][j]], arr[st[R - (1 << j) + 1][j]]);
+    ll query2(int L, int R) const { // return just the minimun value
+		int j = log[R - L + 1];
+		return min(arr[st[L][j]], arr[st[R - (1 << j) + 1][j]]);
     }
 };
 
